@@ -21,8 +21,11 @@ export interface Source {
 }
 
 export interface articlesByCategoryAndPage {
-  [key: string]: {
-    page: number,
-    articles: Article[]
-  }
+  [key: string]: articleByCategoryAndPage
+}
+
+export interface articleByCategoryAndPage {
+  page: number,
+  articles: Article[],
+  totalResults: number
 }

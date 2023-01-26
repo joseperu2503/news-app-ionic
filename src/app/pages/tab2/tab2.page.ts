@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { Article } from 'src/app/interfaces';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { IonInfiniteScroll } from '@ionic/angular';
+import { Article, articleByCategoryAndPage } from 'src/app/interfaces';
 import { NewsService } from 'src/app/services/news.service';
 
 @Component({
@@ -24,30 +25,49 @@ export class Tab2Page implements OnInit {
   ]
   public selectedCategory: string = this.categories[0]
 
+  @ViewChild(IonInfiniteScroll) scroll: IonInfiniteScroll
+
   segmentChange(event: any){
-    console.log(event.detail.value)
     this.selectedCategory = event.detail.value
     this.newService.getTopHeadLinesByCategory(this.selectedCategory)
-    .subscribe( articles => {
-      this.articles = articles
+    .subscribe( res => {
+      this.data = res
+      this.verifyScroll()
     })
   }
 
-  articles: Article[] = []
+  // articles: Article[] = []
+
+  data: articleByCategoryAndPage = {
+    page: 0,
+    articles: [],
+    totalResults: 0
+  }
 
   ngOnInit(){
     this.newService.getTopHeadLinesByCategory(this.selectedCategory)
-    .subscribe( articles => {
-      this.articles = articles
+    .subscribe( res => {
+      this.data = res
     })
   }
 
-  loadData(event: any){
-    this.newService.getTopHeadLinesByCategory(this.selectedCategory, true)
-    .subscribe( articles => {
-      this.articles = articles
-      event.target.complete()
-    })
+  loadData(){
+    if(!this.verifyScroll()){
+      this.scroll.disabled = false
+      this.newService.getTopHeadLinesByCategory(this.selectedCategory, true)
+      .subscribe( res => {
+        this.data = res
+        this.scroll.complete()
+      })
+    }
   }
 
+
+  verifyScroll(){
+    this.scroll.disabled = this.data.articles.length == this.data.totalResults
+
+    return this.scroll.disabled
+  }
 }
+
+

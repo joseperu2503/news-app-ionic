@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Article, articlesByCategoryAndPage, NewsResponse } from '../interfaces';
+import { Article, articleByCategoryAndPage, articlesByCategoryAndPage, NewsResponse } from '../interfaces';
 
 const apiKey = environment.apiKey
 
@@ -15,34 +15,37 @@ export class NewsService {
     private http: HttpClient
   ) { }
 
-  getTopHeadlines(){
-    return this.http.get<NewsResponse>(`https://newsapi.org/v2/top-headlines?country=us&category=business`,{
-      params: {
-        apiKey: apiKey
-      }
-    })
+  getTopHeadlines(): Observable<articleByCategoryAndPage>{
+    // return this.http.get<NewsResponse>(`https://newsapi.org/v2/top-headlines?country=us&category=business`,{
+    //   params: {
+    //     apiKey: apiKey
+    //   }
+    // })
+
+    return this.getArticlesByCategory('business')
   }
 
-  getTopHeadLinesByCategory( category: string, loadMore: boolean = false): Observable<Article[]>{
+  getTopHeadLinesByCategory( category: string, loadMore: boolean = false): Observable<articleByCategoryAndPage>{
 
     if(loadMore){
       return this.getArticlesByCategory(category)
     }
 
     if(this.articlesByCategoryAndPage[category]){
-      return of(this.articlesByCategoryAndPage[category].articles)
+      return of(this.articlesByCategoryAndPage[category])
     }
 
     return this.getArticlesByCategory(category)
   }
 
-  private getArticlesByCategory(category: string): Observable<Article[]>{
+  private getArticlesByCategory(category: string): Observable<articleByCategoryAndPage>{
     if(Object.keys(this.articlesByCategoryAndPage).includes(category)){
 
     }else{
       this.articlesByCategoryAndPage[category] = {
         page: 0,
-        articles: []
+        articles: [],
+        totalResults: 0
       }
     }
     const page = this.articlesByCategoryAndPage[category].page + 1
@@ -54,15 +57,16 @@ export class NewsService {
         page: page
       }
     }).pipe(
-      map(({articles}) => {
+      map(({articles, totalResults}) => {
 
-        if(articles.length == 0) return this.articlesByCategoryAndPage[category].articles
+        if(articles.length == 0) return this.articlesByCategoryAndPage[category]
 
         this.articlesByCategoryAndPage[category] = {
           page: page,
-          articles: [...this.articlesByCategoryAndPage[category].articles, ...articles]
+          articles: [...this.articlesByCategoryAndPage[category].articles, ...articles],
+          totalResults: totalResults
         }
-        return this.articlesByCategoryAndPage[category].articles
+        return this.articlesByCategoryAndPage[category]
       })
     )
   }
