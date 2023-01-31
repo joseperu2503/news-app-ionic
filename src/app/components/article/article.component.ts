@@ -3,6 +3,7 @@ import { Article } from 'src/app/interfaces';
 import { Browser } from '@capacitor/browser';
 import { ActionSheetController } from '@ionic/angular';
 import { Share } from '@capacitor/share';
+import { StorageService } from 'src/app/services/storage.service';
 
 @Component({
   selector: 'app-article',
@@ -13,12 +14,16 @@ export class ArticleComponent implements OnInit {
   @Input() article: Article
   @Input() index: number
   constructor(
-    private actionSheetCtrl: ActionSheetController
+    private actionSheetCtrl: ActionSheetController,
+    private storageService: StorageService
   ) { }
 
   ngOnInit() {}
 
   async onOpenMenu(){
+
+    const articleInFavorite = this.storageService.articleInFavorite(this.article)
+
     const actionSheet = await this.actionSheetCtrl.create({
       header: 'Opciones',
       buttons: [
@@ -28,8 +33,8 @@ export class ArticleComponent implements OnInit {
           handler: () => this.onShareArticle()
         },
         {
-          text: 'Favorito',
-          icon: 'heart-outline',
+          text: articleInFavorite ? 'Remover favorito' : 'Favorito',
+          icon: articleInFavorite ? 'heart' : 'heart-outline',
           handler: () => this.onToggleFavorite()
         }
       ]
@@ -53,5 +58,6 @@ export class ArticleComponent implements OnInit {
 
   onToggleFavorite(){
     console.log('onToggleFavorite')
+    this.storageService.saveRemoveArticle(this.article)
   }
 }
