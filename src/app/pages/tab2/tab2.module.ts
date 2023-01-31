@@ -7,6 +7,7 @@ import { ExploreContainerComponentModule } from '../../explore-container/explore
 
 import { Tab2PageRoutingModule } from './tab2-routing.module';
 import { ComponentsModule } from 'src/app/components/components.module';
+import { SwiperModule } from 'swiper/angular';
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import { ComponentsModule } from 'src/app/components/components.module';
     FormsModule,
     ExploreContainerComponentModule,
     Tab2PageRoutingModule,
-    ComponentsModule
+    ComponentsModule,
+    SwiperModule
   ],
   declarations: [Tab2Page]
 })

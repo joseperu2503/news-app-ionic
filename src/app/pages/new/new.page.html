@@ -1,0 +1,24 @@
+<ion-content>
+  <div class="relative">
+    <img [src]="article.urlToImage" class="rounded-b-3xl">
+    <div class="absolute top-0 w-full flex justify-between py-4 px-4 pb-6 text-white bg-gradient-to-b from-gray-800">
+      <ion-icon name="chevron-back-outline" class="w-6 h-6" (click)="back()"></ion-icon>
+      <div class="flex gap-6">
+        <ion-icon name="share-social-outline" class="w-6 h-6" (click)="share()"></ion-icon>
+        <ion-icon [name]="isFavorite ? 'bookmark' : 'bookmark-outline'" class="w-6 h-6" (click)="onToggleFavorite()"></ion-icon>
+      </div>
+    </div>
+    <div class="absolute bottom-0 text-white text-xs pl-6 py-2 bg-gradient-to-t rounded-b-3xl from-black">
+      {{article.publishedAt | date}}
+    </div>
+  </div>
+
+  <div class="px-6 py-6">
+    <div class="border-l-4 border-orange-500 pl-2 text-gray-700 font-semibold">
+      {{article.title}}
+    </div>
+
+    <p class="mt-4 font-medium text-gray-500">{{article.description}}</p>
+
+  </div>
+</ion-content>

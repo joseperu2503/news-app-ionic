@@ -4,6 +4,8 @@ import { Browser } from '@capacitor/browser';
 import { ActionSheetController } from '@ionic/angular';
 import { Share } from '@capacitor/share';
 import { StorageService } from 'src/app/services/storage.service';
+import { Router } from '@angular/router';
+import { NewsService } from 'src/app/services/news.service';
 
 @Component({
   selector: 'app-article',
@@ -15,7 +17,9 @@ export class ArticleComponent implements OnInit {
   @Input() index: number
   constructor(
     private actionSheetCtrl: ActionSheetController,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private router: Router,
+    private newsService: NewsService
   ) { }
 
   ngOnInit() {}
@@ -57,7 +61,12 @@ export class ArticleComponent implements OnInit {
   }
 
   onToggleFavorite(){
-    console.log('onToggleFavorite')
     this.storageService.saveRemoveArticle(this.article)
   }
+
+  enterArticle(){
+    this.newsService.articleSelected = this.article
+    this.router.navigate(['/tabs/new'])
+  }
+
 }

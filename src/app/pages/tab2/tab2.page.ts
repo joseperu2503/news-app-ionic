@@ -15,6 +15,7 @@ export class Tab2Page implements OnInit {
   ) {}
 
   public categories: string[] = [
+    'all',
     'business',
     'entertainment',
     'general',
@@ -49,6 +50,14 @@ export class Tab2Page implements OnInit {
     .subscribe( res => {
       this.data = res
     })
+  }
+
+  get dataTop(){
+    return this.data.articles.slice(0,5).filter(data => data.urlToImage)
+  }
+
+  get dataSecondary(){
+    return this.data.articles.slice(4).filter(data => data.urlToImage)
   }
 
   loadData(){

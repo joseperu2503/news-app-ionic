@@ -1,4 +1,4 @@
-<ion-card>
+<!-- <ion-card>
   <ion-card-subtitle class="ion-margin">
     <ion-row class="ion-align-items-center" >
       <ion-col class="ion-margin" (click)="openArticle()">
@@ -20,4 +20,13 @@
   <ion-card-content *ngIf="article.description">
     <p>{{article.description}}</p>
   </ion-card-content>
-</ion-card>
+</ion-card> -->
+
+<div class="w-full flex shadow-md h-32">
+  <img [src]="article.urlToImage" class="h-auto w-28 object-cover rounded-lg" (click)="enterArticle()">
+  <div class="py-2 px-4 flex flex-col justify-between">
+    <div class="text-sm leading-4 font-semibold text-zinc-600">{{article.title}}</div>
+    <div class="text-xs font-bold text-gray-400">{{article.publishedAt | date}}</div>
+  </div>
+
+</div>

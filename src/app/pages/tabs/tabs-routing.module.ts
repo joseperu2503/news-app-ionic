@@ -23,7 +23,11 @@ const routes: Routes = [
         path: '',
         redirectTo: '/tabs/tab1',
         pathMatch: 'full'
-      }
+      },
+      {
+        path: 'new',
+        loadChildren: () => import('../new/new.module').then(m => m.NewPageModule)
+      },
     ]
   },
   {

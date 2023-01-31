@@ -1,27 +1,40 @@
-<ion-header [translucent]="true" mode="ios" class="ion-no-border">
-  <ion-toolbar>
-    <ion-title>
-      Encabezados
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
+<app-header></app-header>
 
-<ion-content [fullscreen]="true" mode="ios" class="ion-no-border">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Encabezados</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
+  <div class="px-4">
 
-  <ion-segment [value]="selectedCategory" (ionChange)="segmentChange($event)" scrollable mode="md">
-    <ion-segment-button [value]="category" *ngFor="let category of categories">
-      <ion-label class="ion-text-capitalize">{{category}}</ion-label>
-    </ion-segment-button>
-  </ion-segment>
-  <app-articles [articles]="data.articles"></app-articles>
+    <div class="w-full shadow h-10 mb-4 bg-gray-200 rounded-xl flex items-center px-4 pl-6">
+      <input type="text" class="border-none bg-gray-200 grow outline-none">
+      <ion-icon slot="start" name="search" class="text-gray-500"></ion-icon>
+    </div>
+    <ion-segment [value]="selectedCategory" (ionChange)="segmentChange($event)" scrollable mode="md" class="pb-4">
+      <ion-segment-button [value]="category" *ngFor="let category of categories">
+        <ion-label class="ion-text-capitalize">{{category}}</ion-label>
+      </ion-segment-button>
+    </ion-segment>
 
-  <ion-infinite-scroll threshold="25%" position="bottom" (ionInfinite)="loadData()">
-    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Cargando...">
-    </ion-infinite-scroll-content>
-  </ion-infinite-scroll>
+    <swiper
+      [pagination]="true"
+      class="mySwiper mb-8"
+      [spaceBetween]="16"
+      [centeredSlides]="true"
+      [pagination]="true"
+    >
+      <ng-template swiperSlide *ngFor="let article of dataTop">
+        <div class="relative">
+          <img [src]="article.urlToImage" class="rounded-xl h-[200px] w-full object-cover">
+          <div class="absolute bottom-0 text-white text-sm font-bold px-2 py-2 pt-6 bg-gradient-to-t from-black rounded-b-xl">{{article.title}}</div>
+        </div>
+
+      </ng-template>
+    </swiper>
+
+    <app-articles [articles]="dataSecondary"></app-articles>
+
+    <ion-infinite-scroll threshold="25%" position="bottom" (ionInfinite)="loadData()">
+      <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Cargando...">
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+  </div>
+
 </ion-content>

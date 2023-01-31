@@ -1,4 +1,4 @@
-<ion-grid>
+<!-- <ion-grid>
   <ion-row>
     <ion-col
       *ngFor="let article of articles; let i = index"
@@ -9,4 +9,11 @@
       <app-article [article]="article" [index]="i + 1"></app-article>
     </ion-col>
   </ion-row>
-</ion-grid>
+</ion-grid> -->
+
+<div class="grid grid-cols-1 gap-6">
+  <app-article
+    [article]="article" [index]="i + 1"
+    *ngFor="let article of articles; let i = index"
+  ></app-article>
+</div>
