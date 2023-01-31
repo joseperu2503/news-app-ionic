@@ -1,14 +1,14 @@
 <ion-content>
   <div class="relative">
     <img [src]="article.urlToImage" class="rounded-b-3xl">
-    <div class="absolute top-0 w-full flex justify-between py-4 px-4 pb-6 text-white bg-gradient-to-b from-gray-800">
+    <div class="absolute top-0 w-full flex justify-between py-4 px-4 pb-0 text-white bg-gradient-to-b from-gray-800" style="opacity: 0.5;">
       <ion-icon name="chevron-back-outline" class="w-6 h-6" (click)="back()"></ion-icon>
       <div class="flex gap-6">
         <ion-icon name="share-social-outline" class="w-6 h-6" (click)="share()"></ion-icon>
         <ion-icon [name]="isFavorite ? 'bookmark' : 'bookmark-outline'" class="w-6 h-6" (click)="onToggleFavorite()"></ion-icon>
       </div>
     </div>
-    <div class="absolute bottom-0 text-white text-xs pl-6 py-2 bg-gradient-to-t rounded-b-3xl from-black">
+    <div class="absolute bottom-0 text-white text-xs pl-6 py-2 bg-gradient-to-t rounded-b-3xl from-gray-800 w-full">
       {{article.publishedAt | date}}
     </div>
   </div>
